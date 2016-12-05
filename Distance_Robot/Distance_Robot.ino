@@ -9,7 +9,7 @@ int times[] = {3000, 4000, 5000};
 int distance[] = {10, 20, 5};
 long starttime;
 long endtime;
-NewPing sonar(trigger, echo, 500);
+NewPing sonar(trigger, echo);
 int range;
 void setup() {
   // put your setup code here, to run once:
@@ -30,7 +30,7 @@ void loop() {
     }
     starttime = millis();
     endtime = starttime;
-    while ((endtime - starttime) <= times[1]) {
+    while ((endtime - starttime) <= times[1]) //wont work
       if (range == distance[1]) {
         digitalWrite(left_motor, HIGH);
         digitalWrite(right_motor, HIGH);
@@ -41,7 +41,7 @@ void loop() {
       else {
 
       }
-    }
+    
     while ((endtime - starttime) <= times[2]) {
       if (range == distance[2]) {
         digitalWrite(left_motor, HIGH);
