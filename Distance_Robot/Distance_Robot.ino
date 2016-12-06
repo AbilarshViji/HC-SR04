@@ -22,7 +22,7 @@ void setup() {
 //http://forum.arduino.cc/index.php?topic=45787.0
 void loop() {
   // put your main code here, to run repeatedly:
-  if (button == HIGH) {
+ // if (button == HIGH) {
     while (true) {
       delay(50);
       range = sonar.ping_cm();
@@ -30,41 +30,20 @@ void loop() {
     }
     starttime = millis();
     endtime = starttime;
-    while ((endtime - starttime) <= times[1]) //wont work
+ //   while ((endtime - starttime) <= times[1]) //wont work
       if (range == distance[1]) {
         digitalWrite(left_motor, HIGH);
         digitalWrite(right_motor, HIGH);
       }
       else if (range > distance[1]) {
+        digitalWrite(right_motor, HIGH);
 
       }
-      else {
+      else if(range < distance[1]) {
+        digitalWrite(left_motor, HIGH);
 
       }
     
-    while ((endtime - starttime) <= times[2]) {
-      if (range == distance[2]) {
-        digitalWrite(left_motor, HIGH);
-        digitalWrite(right_motor, HIGH);
-      }
-      else if (range > distance[2]) {
 
-      }
-      else {
-
-      }
-    }
-    while ((endtime - starttime) <= times[3]) {
-      if (range == distance[3]) {
-        digitalWrite(left_motor, HIGH);
-        digitalWrite(right_motor, HIGH);
-      }
-      else if (range > distance[3]) {
-
-      }
-      else {
-
-      }
-    }
-  }
+ // }
 }
