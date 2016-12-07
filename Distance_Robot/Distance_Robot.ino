@@ -7,12 +7,14 @@ int right_motor = 9;
 int button = 8;
 int times[] = {3000, 4000, 5000};
 int distance[] = {10, 20, 5};
+int count = 0;
+const int checker = 5;
 long starttime;
 long endtime;
-NewPing sonar(trigger, echo);
 int range;
+int section = 0;
+NewPing sonar(trigger, echo,5000);
 void setup() {
-  // put your setup code here, to run once:
   pinMode(led, OUTPUT);
   pinMode(left_motor, OUTPUT);
   pinMode(right_motor, OUTPUT);
@@ -21,29 +23,77 @@ void setup() {
 }
 //http://forum.arduino.cc/index.php?topic=45787.0
 void loop() {
-  // put your main code here, to run repeatedly:
- // if (button == HIGH) {
+  beginning:
+  if (button == HIGH) {
+    section = 1;
     while (true) {
       delay(50);
       range = sonar.ping_cm();
       Serial.println(range);
     }
-    starttime = millis();
-    endtime = starttime;
- //   while ((endtime - starttime) <= times[1]) //wont work
-      if (range == distance[1]) {
-        digitalWrite(left_motor, HIGH);
-        digitalWrite(right_motor, HIGH);
-      }
-      else if (range > distance[1]) {
-        digitalWrite(right_motor, HIGH);
-
-      }
-      else if(range < distance[1]) {
-        digitalWrite(left_motor, HIGH);
-
-      }
-    
-
- // }
+    switch (section) {
+      case 1:
+        if (range == distance[1]) {
+          digitalWrite(left_motor, HIGH);
+          digitalWrite(right_motor, HIGH);
+          count += 1;
+          if (count = checker) {
+            delay(times[1]);
+            count = 0;
+            section = 2;
+            break;
+          }
+        }
+        else if (range > distance[1]) {
+          digitalWrite(right_motor, HIGH);
+          count = 0;
+        }
+        else if (range < distance[1]) {
+          digitalWrite(left_motor, HIGH);
+          count = 0;
+        }
+      case 2:
+        if (range == distance[2]) {
+          digitalWrite(left_motor, HIGH);
+          digitalWrite(right_motor, HIGH);
+          count += 1;
+          if (count = checker) {
+            delay(times[2]);
+            count = 0;
+            section = 3;
+            break;
+          }
+        }
+        else if (range > distance[2]) {
+          digitalWrite(right_motor, HIGH);
+          count = 0;
+        }
+        else if (range < distance[2]) {
+          digitalWrite(left_motor, HIGH);
+          count = 0;
+        }
+      case 3:
+        if (range == distance[3]) {
+          digitalWrite(left_motor, HIGH);
+          digitalWrite(right_motor, HIGH);
+          count += 1;
+          if (count = checker) {
+            delay(times[3]);
+            count = 0;
+            section = 0;
+            break;
+          }
+        }
+        else if (range > distance[3]) {
+          digitalWrite(right_motor, HIGH);
+          count = 0;
+        }
+        else if (range < distance[3]) {
+          digitalWrite(left_motor, HIGH);
+          count = 0;
+        }
+        default:
+        goto beginning;
+    }
+  }
 }
