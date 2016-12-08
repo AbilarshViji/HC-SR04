@@ -12,7 +12,7 @@ const int checker = 5;
 long starttime;
 long endtime;
 int range;
-int section = 0;
+int section = 1;
 NewPing sonar(trigger, echo,5000);
 void setup() {
   pinMode(led, OUTPUT);
@@ -24,7 +24,7 @@ void setup() {
 //http://forum.arduino.cc/index.php?topic=45787.0
 void loop() {
   beginning:
-  if (button == HIGH) {
+//  if (button == HIGH) {
     section = 1;
     while (true) {
       delay(50);
@@ -95,5 +95,5 @@ void loop() {
         default:
         goto beginning;
     }
-  }
+
 }

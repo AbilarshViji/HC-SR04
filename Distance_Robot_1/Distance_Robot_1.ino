@@ -6,7 +6,7 @@ int left_motor = 10;
 int right_motor = 9;
 int button = 8;
 int times[] = {3000, 4000, 5000};
-int distance[] = {10, 20, 5};
+int distance[] = {20, 10, 5};
 long starttime;
 long endtime;
 NewPing sonar(trigger, echo,500);
@@ -23,7 +23,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
  // if (button == HIGH) {
-      delay(50);
+      delay(10 v 0);
       range = sonar.ping_cm();
       Serial.println(range);
     starttime = millis();
@@ -34,13 +34,13 @@ void loop() {
         digitalWrite(right_motor, HIGH);
       }
       else if (range > distance[1]) {
-        digitalWrite(right_motor, HIGH);
-        digitalWrite(left_motor, LOW);
+        digitalWrite(right_motor, LOW);
+        digitalWrite(left_motor, HIGH);
 
       }
       else if(range < distance[1]) {
-        digitalWrite(left_motor, HIGH);
-        digitalWrite(right_motor, LOW);
+        digitalWrite(left_motor, LOW);
+        digitalWrite(right_motor, HIGH);
 
       }
     
