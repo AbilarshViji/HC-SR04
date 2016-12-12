@@ -16,19 +16,20 @@ void setup() {
   pinMode(led, OUTPUT);
   pinMode(left_motor, OUTPUT);
   pinMode(right_motor, OUTPUT);
+  
   pinMode(button, INPUT);
   Serial.begin(9600);
 }
 //http://forum.arduino.cc/index.php?topic=45787.0
 void loop() {
- // if (button == HIGH) {
+  if (button == HIGH) {
       delay(50);
       range = sonar.ping_cm();
       Serial.println(range);
  //   while ((endtime - starttime) <= times[1]) //wont work
       if (range == distance[0]) {
-        digitalWrite(left_motor, 250);
-        digitalWrite(right_motor, 255);
+        analogWrite(left_motor, 250);
+        analogWrite(right_motor, 255);
       }
       else if (range > distance[0]) {
         analogWrite(right_motor, 110);
@@ -42,6 +43,6 @@ void loop() {
       }
 
 
- // }
+  }
 }
 
