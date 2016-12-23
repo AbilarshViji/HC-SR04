@@ -1,19 +1,16 @@
 #include <NewPing.h>
 int trigger = 4;
 int echo = 3;
-int led = 11;
 int left_motor = 10;
 int right_motor = 9;
 int button = 13;
-int times[] = {3000, 4000, 5000};
-int distance[] = {30, 10, 5};
-double pingpong = 0;
+int timer[] = {3000, 2000, 2500};
+int distance[] = {30, 20, 15};
 bool starter;
 NewPing sonar(trigger, echo, 200);
 int range;
 void setup() {
   // put your setup code here, to run once:
-  pinMode(led, OUTPUT);
   pinMode(left_motor, OUTPUT);
   pinMode(right_motor, OUTPUT);
   pinMode(button, INPUT);
@@ -22,7 +19,28 @@ void setup() {
   analogWrite(left_motor, 0);
   analogWrite(right_motor, 0);
 }
-//http://forum.arduino.cc/index.php?topic=45787.0
+void abitech(int timer, int distance) {
+  range = sonar.ping_cm();
+  Serial.println(range);
+  int starttime;
+  int endtime;
+  starttime = millis();
+  endtime = starttime;
+  while ((endtime - starttime) <= timer) {
+    if (range == distance) {
+      analogWrite(left_motor, 255);
+      analogWrite(right_motor, 255);
+    }
+    else if (range > distance) {
+      analogWrite(right_motor, 127);
+      analogWrite(left_motor, 190);
+    }
+    else if (range < distance) {
+      analogWrite(left_motor, 80);
+      analogWrite(right_motor, 255);
+    }
+  }
+}
 void loop() {
   //  Serial.println(starter);
 
@@ -30,24 +48,9 @@ void loop() {
     starter += 1;
   }
   while (starter >= 1 ) {
-  //    Serial.println(starter);
-//Serial.print("esr");
-    //  delay(50);
-    range = sonar.ping_cm();
-    Serial.println(range);
-    analogWrite(left_motor, 255);
-    analogWrite(right_motor, 255);
-    if (range == distance[0]) {
-      analogWrite(left_motor, 255);
-      analogWrite(right_motor, 255);
-      }
-      else if (range > distance[0]) {
-      analogWrite(right_motor, 127);
-      analogWrite(left_motor, 190);
-      }
-      else if (range < distance[0]) {
-      analogWrite(left_motor, 80);
-      analogWrite(right_motor, 255);
-      }
+    abitech(distance[0], timer[0]);
+    abitech(distance[1], timer[1]);
+    abitech(distance[2], timer[2]);
+    starter = 0;
   }
-}
+} 
