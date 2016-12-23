@@ -48,9 +48,9 @@ void loop() {
     starter += 1;
   }
   while (starter >= 1 ) {
-    abitech(distance[0], timer[0]);
-    abitech(distance[1], timer[1]);
-    abitech(distance[2], timer[2]);
+    for (int i = 0; i < 3; i++) {
+      abitech(distance[i], timer[i]);
+    }
     starter = 0;
   }
-} 
+}
