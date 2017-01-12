@@ -9,6 +9,7 @@ int distance[] = {30, 20, 15};
 bool starter;
 NewPing sonar(trigger, echo, 200);
 int range;
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(left_motor, OUTPUT);
@@ -48,9 +49,19 @@ void loop() {
     starter += 1;
   }
   while (starter >= 1 ) {
-    for (int i = 0; i < 3; i++) {
-      abitech(distance[i], timer[i]);
+      range = sonar.ping_cm();
+    if (range == distance[0]) {
+      analogWrite(left_motor, 255);
+      analogWrite(right_motor, 255);
     }
-    starter = 0;
+    else if (range > distance[0]) {
+      analogWrite(right_motor, 127);
+      analogWrite(left_motor, 190);
+    }
+    else if (range < distance[0]) {
+      analogWrite(left_motor, 80);
+      analogWrite(right_motor, 255);
+    }
+  }
   }
 }
