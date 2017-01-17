@@ -1,17 +1,20 @@
 #include <NewPing.h>
+#include "MillisTimer.h"
+
 int trigger = 4;
 int echo = 3;
 int left_motor = 10;
 int right_motor = 9;
 int button = 13;
-int timer[] = {3000, 2000, 2500};
-int distance[] = {30, 20, 15};
-bool starter;
-NewPing sonar(trigger, echo, 200);
 int range;
+NewPing sonar(trigger, echo, 200);
+MillisTimer timer1 = MillisTimer(1000);
+
 
 void setup() {
-  // put your setup code here, to run once:
+  timer1.setInterval(1000);
+  timer1.setRepeats(1);
+  timer1.start();
   pinMode(left_motor, OUTPUT);
   pinMode(right_motor, OUTPUT);
   pinMode(button, INPUT);
@@ -20,48 +23,32 @@ void setup() {
   analogWrite(left_motor, 0);
   analogWrite(right_motor, 0);
 }
-void abitech(int timer, int distance) {
+void abitech(int distance) {
   range = sonar.ping_cm();
   Serial.println(range);
-  int starttime;
-  int endtime;
-  starttime = millis();
-  endtime = starttime;
-  while ((endtime - starttime) <= timer) {
     if (range == distance) {
       analogWrite(left_motor, 255);
       analogWrite(right_motor, 255);
+timer1.run();
+      }
     }
+
     else if (range > distance) {
       analogWrite(right_motor, 127);
       analogWrite(left_motor, 190);
     }
+
     else if (range < distance) {
       analogWrite(left_motor, 80);
       analogWrite(right_motor, 255);
-    }
   }
 }
-void loop() {
-  //  Serial.println(starter);
 
+void loop() {
   if (digitalRead(button) == 1) {
     starter += 1;
   }
   while (starter >= 1 ) {
-      range = sonar.ping_cm();
-    if (range == distance[0]) {
-      analogWrite(left_motor, 255);
-      analogWrite(right_motor, 255);
-    }
-    else if (range > distance[0]) {
-      analogWrite(right_motor, 127);
-      analogWrite(left_motor, 190);
-    }
-    else if (range < distance[0]) {
-      analogWrite(left_motor, 80);
-      analogWrite(right_motor, 255);
-    }
-  }
+abitech(20);
   }
 }
