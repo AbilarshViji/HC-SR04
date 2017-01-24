@@ -34,7 +34,7 @@ void abitech(int distance) {
   if (range == distance) {
     analogWrite(left_motor, 255);
     analogWrite(right_motor, 255);
-    timer.setTimeout(2000, circle);
+    timer.setTimeout(5000, circle);  
     timer.run();
   }
 
@@ -53,7 +53,7 @@ void loop() {
   if (digitalRead(button) == 1) {
     starter += 1;
   }
-  while (starter >= 1 ) {
+  while (starter >= 2 ) {
     abitech(20);
   }
 }
